@@ -39,9 +39,12 @@ func (r *queryResolver) User(ctx context.Context, id string) (*models.User, erro
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*models.User, error) {
-	// Crea una slice vacía de usuarios
-	emptyUsers := []*models.User{}
-	return emptyUsers, nil
+	users := []*models.User{}
+	users = append(users, &models.User{
+		Name: "Franky",
+		Age:  "20",
+	})
+	return users, nil
 }
 
 // Mutation returns MutationResolver implementation.
