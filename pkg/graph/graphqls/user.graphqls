@@ -1,6 +1,7 @@
 type User {
   id: ID!
   name: String!
+  lastname: String!
   age: String!
   mayor: String!
   created_at: String!
@@ -9,10 +10,12 @@ type User {
 
 input NewUser {
   name: String!
+  lastname: String!
   age: String!
 }
 
 input UpdateUser {
-  name: String!
-  age: String!
+  name: String
+  lastname: String
+  age: String
 }

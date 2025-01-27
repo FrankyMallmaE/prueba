@@ -6,28 +6,39 @@ package graph
 
 import (
 	"context"
+	"strconv"
+	"time"
 
 	"github.com/levelstudio/payroll-4ta-crud/pkg/models"
 )
 
 // ID is the resolver for the id field.
 func (r *userResolver) ID(ctx context.Context, obj *models.User) (string, error) {
-	return "a", nil
+	return strconv.FormatUint(uint64(obj.ID), 10), nil
 }
 
 // Mayor is the resolver for the mayor field.
 func (r *userResolver) Mayor(ctx context.Context, obj *models.User) (string, error) {
-	return "a", nil
+	age, err := strconv.Atoi(obj.Age)
+	if err != nil {
+		panic(err)
+	}
+
+	if age < 18 {
+		return "menor de edad", nil
+	} else {
+		return "mayor de edad", nil
+	}
 }
 
 // CreatedAt is the resolver for the created_at field.
 func (r *userResolver) CreatedAt(ctx context.Context, obj *models.User) (string, error) {
-	return "a", nil
+	return obj.CreatedAt.Format(time.RFC3339), nil
 }
 
 // UpdatedAt is the resolver for the updated_at field.
 func (r *userResolver) UpdatedAt(ctx context.Context, obj *models.User) (string, error) {
-	return "a", nil
+	return obj.UpdatedAt.Format(time.RFC3339), nil
 }
 
 // User returns UserResolver implementation.

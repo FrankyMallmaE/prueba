@@ -17,6 +17,7 @@ func (m *UsersRepo) GetUsers() ([]*models.User, error) {
 	var users []*models.User
 
 	query := m.DB.Model(&models.User{}).
+		Order("id ASC").
 		Find(&users)
 	if err := query.Error; err != nil {
 		return nil, err
@@ -53,16 +54,31 @@ func (m *UsersRepo) CreateUser(user *models.User) (*models.User, error) {
 	return user, nil
 }
 
-func (m *UsersRepo) UpdateEmployee(id string, user *models.User) (*models.User, error) {
+func (m *UsersRepo) UpdateUser(user *models.User) (*models.User, error) {
 
 	query := m.DB.Model(&models.User{}).
-		Where("id = ?", id).
+		Where("id = ?", user.ID).
 		Updates(user)
 	if err := query.Error; err != nil {
 		return nil, err
 	}
 
 	for _, observer := range m.UpdateUserObserver {
+		observer <- user
+	}
+
+	return user, nil
+}
+
+func (m *UsersRepo) DeleteUser(user *models.User) (*models.User, error) {
+
+	query := m.DB.Unscoped().
+		Delete(&user)
+	if err := query.Error; err != nil {
+		return nil, err
+	}
+
+	for _, observer := range m.DeleteUserObserver {
 		observer <- user
 	}
 

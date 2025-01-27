@@ -6,14 +6,16 @@ type Mutation struct {
 }
 
 type NewUser struct {
-	Name string `json:"name"`
-	Age  string `json:"age"`
+	Name     string `json:"name"`
+	Lastname string `json:"lastname"`
+	Age      string `json:"age"`
 }
 
 type Query struct {
 }
 
 type UpdateUser struct {
-	Name string `json:"name"`
-	Age  string `json:"age"`
+	Name     *string `json:"name,omitempty"`
+	Lastname *string `json:"lastname,omitempty"`
+	Age      *string `json:"age,omitempty"`
 }
